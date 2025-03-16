@@ -1,3 +1,8 @@
+> [!WARNING]  
+> This repository is a personal project created for testing and development purposes.
+> It is not an official fork or replacement for the main repository and does not
+> represent the views or intentions of the original project or its maintainers.
+> For the official project, please refer to [https://github.com/lvgl/lvgl].
 
 <a href="https://github.com/sponsors/lvgl" target="_blank"><img align="left" src="https://lvgl.io/github-assets/sponsor.png" height="32px"></a>
 

@@ -29,27 +29,25 @@ class PreviousResults:
 
 
 def format_table(results: list[dict], prev_results: list[dict] | None):
+
     table = "| Scene Name | Avg CPU (%) | Avg FPS | Avg Time (ms) | Render Time (ms) | Flush Time (ms) |\n"
     table += "|------------|------------|---------|--------------|----------------|--------------|\n"
     data_keys = ["avg_cpu", "avg_fps", "avg_time", "render_time", "flush_time"]
 
     if prev_results is None:
-        for scene_results in results:
-            print(scene_results)
-            table += f"| {scene_results['scene_name']} |"
-            for key in data_keys:
+        prev_results = results
+
+    for scene_results, prev_scene_results in zip(results, prev_results):
+        delta_p = {
+            key: ((scene_results[key] - prev_scene_results[key])) for key in data_keys
+        }
+        table += f"| {scene_results['scene_name']} |"
+        for key in data_keys:
+            if delta_p[key] == 0:
                 table += f" {scene_results[key]} |"
-            table += "\n"
-    else:
-        for scene_results, prev_scene_results in zip(results, prev_results):
-            delta_p = {
-                key: (scene_results[key] - prev_scene_results[key]) * 100
-                for key in data_keys
-            }
-            table += f"| {scene_results['scene_name']} |"
-            for key in data_keys:
-                table += f" {scene_results[key]} ({delta_p[key]:+}%)|"
-            table += "\n"
+            else:
+                table += f" {scene_results[key]} ({delta_p[key]:+})|"
+        table += "\n"
 
     return table
 
@@ -87,7 +85,7 @@ def main():
     if args.previous:
         previous_results_paths = sorted(args.previous)
         for results_path in previous_results_paths:
-            _, image_type, config = results_path.replace(".json", "").split("-")
+            _, image_type, config = results_path.replace(".mpk", "").split("-")
 
             with open(results_path, "rb") as f:
                 previousb = f.read()

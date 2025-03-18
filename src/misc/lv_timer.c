@@ -56,6 +56,7 @@ void lv_timer_core_init(void)
 {
     lv_ll_init(timer_ll_p, sizeof(lv_timer_t));
 
+
     /*Initially enable the lv_timer handling*/
     lv_timer_enable(true);
 }

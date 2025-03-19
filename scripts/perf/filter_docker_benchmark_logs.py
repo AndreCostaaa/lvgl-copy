@@ -1,6 +1,3 @@
-import sys
-import json
-
 """
 This script parses a docker logs file for the lv_benchmark summary results
 
@@ -53,6 +50,9 @@ Outpus a json file with the format:
 ]
 ```
 """
+
+import sys
+import json
 
 
 def main():

@@ -48,7 +48,7 @@ jobs:
       - name: Download Results
         uses: dawidd6/action-download-artifact@v9
         with:
-          workflow: Emulated Performance Test
+          workflow: perf_emulation.yml
 
       - name: Collect 'master' Results
         uses: robinraju/release-downloader@v1

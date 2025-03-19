@@ -49,6 +49,12 @@ jobs:
         uses: dawidd6/action-download-artifact@v9
         with:
           workflow: perf_emulation.yml
+          path: artifacts
+
+      - name: Move JSON files to a single folder
+        run: |
+          mkdir input
+          find artifacts -name "*.json" -exec mv {} input/ \;
 
       - name: Collect 'master' Results
         uses: robinraju/release-downloader@v1
@@ -65,12 +71,12 @@ jobs:
           if ls results*.mpk 1> /dev/null 2>&1; then
             python3 scripts/perf/benchmark_results_comment.py \
               --previous results*.mpk \
-              --new results*.json \
+              --new input/results*.json \
               --output comment.md
           else
             echo "No previous results found, generating comment without comparison."
             python3 scripts/perf/benchmark_results_comment.py \
-              --new results*.json \
+              --new input/results*.json \
               --output comment.md
           fi          
           
@@ -104,9 +110,10 @@ jobs:
       - name: Serialize Results
         if: endsWith(github.ref, 'master') == true
         run: |
+          # Here the input folder already exists from a previous step
           pip3 install msgpack==1.1.0
-          mkdir input output
-          mv results* input
+          mkdir output
+          find . -maxdepth 1 \( -name "results*.mpk" \) -exec mv -t input {} +
           python scripts/perf/serialize_results.py --input input --output output --commit-hash ${{ github.sha }}
 
       - name: Store Results in Benchmark Release

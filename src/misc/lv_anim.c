@@ -105,6 +105,7 @@ lv_anim_t * lv_anim_start(const lv_anim_t * a)
     lv_memcpy(new_anim, a, sizeof(lv_anim_t));
     if(a->var == a) new_anim->var = new_anim;
     new_anim->run_round = state.anim_run_round;
+
     new_anim->last_timer_run = lv_tick_get();
 
     new_anim->is_paused = false;

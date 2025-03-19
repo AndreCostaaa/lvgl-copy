@@ -73,9 +73,10 @@ jobs:
       - name: Upload Results
         uses: actions/upload-artifact@v4
         with:
-          name: results-${{matrix.image_type}}-${{matrix.config}}.json
+          name: results-${{matrix.image_type}}-${{matrix.config}}
           path: results-${{matrix.image_type}}-${{matrix.config}}.json
           if-no-files-found: error
+
   save_pr_number:
     runs-on: ubuntu-24.04
     if: ${{ github.event_name == 'pull_request' }}

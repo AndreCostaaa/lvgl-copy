@@ -46,7 +46,7 @@ jobs:
           fetch-depth: 0
 
       - name: Download Results
-        uses: dawidd6/action-download-artifact@v9
+        uses: dawidd6/action-download-artifact@v14
         with:
           workflow: perf_emulation.yml
           path: artifacts
